@@ -18,5 +18,27 @@ model User {
   userName     String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
   password     String  
+  clinic       Clinic[]
 
 }
+
+model Clinic {
+id                  Int            @id @unique @default(autoincrement())
+
+phonenumber        String           @db.VarChar(255)
+email              String           @unique @db.VarChar(255)
+address            String           @db.VarChar(255)
+name               String           @db.VarChar(255)
+description        String           
+userId             Int               
+
+
+user       User @relation(fields: [userId], references: [id], onDelete: Cascade)    
+@@index([userId])
+
+}
+
+
+ 
+
+
