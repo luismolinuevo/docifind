@@ -15,6 +15,47 @@ router.get('/', async (req, res) => {
 
 });
 
+//find a specific doctor using id in the params
+
+router.get('/:doctorId', async (req, res) => {
+    try {
+        const doctorId = req.params.doctorId
+        const doctor = await prisma.doctor.findFirst({
+            where: {
+                id: parseInt(doctorId)
+            }
+        })
+        res.status(200).json({
+            sucess: true,
+            clinic
+        })
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Jose" });
+    }
+
+});
+
+//find all doctors for specific clinic using clinic id in the params
+router.get('/userdoctor', async (req, res) => {
+    try {
+        const doctors = await prisma.doctor.findMany({
+            where: {
+                userId: parseInt(req.user.id)
+            },
+        },
+
+        )
+        res.json(doctors);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Server Error" })
+    }
+
+});
+
+
 
 router.post('/', async (req, res) => {
     const {  firstName,lastName, specialization, address, city, state, zipcode, phonenumber, email,  hospital, userId } = req.body;
