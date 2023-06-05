@@ -6,39 +6,57 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
 model User {
-  id           Int            @id @unique @default(autoincrement())
-  firstName    String?        @db.VarChar(255)
-  lastName     String?        @db.VarChar(255)
-  userName     String         @db.VarChar(255)
-  email        String         @unique @db.VarChar(255)
-  password     String  
-  clinic       Clinic[]
-
+  id        Int      @id @unique @default(autoincrement())
+  firstName String?  @db.VarChar(255)
+  lastName  String?  @db.VarChar(255)
+  userName  String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String
+  clinic    Clinic[]
+  doctor    Doctor[]
 }
 
 model Clinic {
-id                  Int            @id @unique @default(autoincrement())
+  id Int @id @unique @default(autoincrement())
 
-phonenumber        String           @db.VarChar(255)
-email              String           @unique @db.VarChar(255)
-address            String           @db.VarChar(255)
-name               String           @db.VarChar(255)
-description        String           
-userId             Int               
+  phonenumber String   @db.VarChar(255)
+  email       String   @unique @db.VarChar(255)
+  address     String   @db.VarChar(255)
+  name        String   @db.VarChar(255)
+  description String
+  userId      Int
+  doctor      Doctor[]
 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-user       User @relation(fields: [userId], references: [id], onDelete: Cascade)    
-@@index([userId])
-
+  @@index([userId])
 }
 
+model Doctor {
+  id Int @id @unique @default(autoincrement())
 
- 
+  firstName      String @db.VarChar(255)
+  lastName       String @db.VarChar(255)
+  specialization String
+  address        String
+  city           String
+  state          String
+  zipcode        String
+  phonenumber    String @db.VarChar(255)
+  email          String @unique @db.VarChar(255)
+  hospital       String
+  userId         Int
+  clinicId       Int
+  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
 
+  @@index([userId])
+  @@index([clinicId])
+}
