@@ -6,6 +6,7 @@ import passport from "passport";
 import authRouter from "./routes/auth.js";
 import clinicRouter from "./routes/clinic.js";
 import doctorRouter from "./routes/doctor.js";
+import reviewRouter from "./routes/review.js";
 const app = express();
 app.use(express.json());
 
@@ -17,6 +18,8 @@ setupJWTStrategy(passport);
 app.use("/auth", authRouter);
 app.use("/clinic", clinicRouter);
 app.use ("/doctor", doctorRouter);
+app.use ("/review", reviewRouter);
+
 app.listen(3001, () => {
     console.log("Server is up");
 })

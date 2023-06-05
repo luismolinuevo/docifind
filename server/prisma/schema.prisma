@@ -20,6 +20,7 @@ model User {
   password  String
   clinic    Clinic[]
   doctor    Doctor[]
+  review    Review[]
 }
 
 model Clinic {
@@ -53,10 +54,30 @@ model Doctor {
   hospital       String
   userId         Int
   clinicId       Int
-  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  review       Review[]
+  
 
-  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+ clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([clinicId])
+}
+
+model Review {
+  id        Int  @id @default(autoincrement())
+
+  rating    Int
+  comment   String   @db.VarChar(1000)
+  doctorId  Int
+  userId    Int
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  
+
+   @@index([userId])
+   @@index([doctorId])
+   
+  
 }
