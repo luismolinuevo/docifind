@@ -33,6 +33,7 @@ model Clinic {
   description String
   userId      Int
   doctor      Doctor[]
+  review      Review[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -54,8 +55,6 @@ model Doctor {
   hospital       String
   userId         Int
   clinicId       Int
-  review       Review[]
-  
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
@@ -69,15 +68,15 @@ model Review {
 
   rating    Int
   comment   String   @db.VarChar(1000)
-  doctorId  Int
+  clinicId  Int
   userId    Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   
 
    @@index([userId])
-   @@index([doctorId])
+   @@index([clinicId])
    
   
 }
