@@ -76,7 +76,18 @@ router.put("/:clinicId", passport.authenticate("jwt", { session: false }), async
 
 //delete review
 router.delete("/:clinicId", async (req, res) => {
+    const clinicId = req.params.clinicId;
 
+    const deleteReview = await prisma.review.deleteMany({
+        where: {
+            clinicId: clinicId,
+            userId: req.user.id
+        }
+    });
+
+    res.status(200).json({
+        success: true
+    });
 });
 
 export default router;
