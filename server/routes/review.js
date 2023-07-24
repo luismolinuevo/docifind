@@ -20,13 +20,33 @@ router.get("/:clinicId", async (req, res) => {
 
 //get specifc review
 router.get("/:reviewId", async (req, res) => {
+    const reviewId = req.params.reviewId;
 
-})
+    const getReview = await prisma.review.findFirst({
+        where: {
+            id: reviewId
+        }
+    });
+
+    res.status(200).json({
+        success: true,
+        getReview
+    })
+});
 
 //create review
 router.post("/:clinicId", async (req, res) => {
+    const clinicId = req.params.clinicId;
 
-})
+    const createReview = await prisma.review.create({
+        data: {
+            rating: req.body.rating,
+            comment: req.body.comment,
+            clinicId: clinicId,
+            userId: req.user.id
+        }
+    });
+});
 
 //edit review
 router.put("/:clinicId", async (req, res) => {
