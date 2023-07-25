@@ -1,5 +1,6 @@
 import prisma from "../db/index.js";
 import express from "express";
+import passport from "passport";
 const router = express.Router();
 
 //get all reviews for clinic

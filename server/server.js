@@ -22,4 +22,4 @@ app.use ("/review", reviewRouter);
 
 app.listen(3001, () => {
     console.log("Server is up");
-})
+});

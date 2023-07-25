@@ -21,6 +21,7 @@ model User {
   clinic    Clinic[]
   doctor    Doctor[]
   review    Review[]
+  savedClinics SavedClinics[]
 }
 
 model Clinic {
@@ -56,7 +57,7 @@ model Doctor {
   userId         Int
   clinicId       Int
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+ user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -77,6 +78,19 @@ model Review {
 
    @@index([userId])
    @@index([clinicId])
-   
+}
+
+model SavedClinics {
+  id        Int  @id @default(autoincrement())
+
+  clinicId  Int
+  clinicName String
+  userId    Int
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
   
+
+   @@index([userId])
+  //  @@index([clinicId])
 }
