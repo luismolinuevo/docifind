@@ -12,16 +12,18 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @unique @default(autoincrement())
-  firstName String?  @db.VarChar(255)
-  lastName  String?  @db.VarChar(255)
-  userName  String   @db.VarChar(255)
-  email     String   @unique @db.VarChar(255)
-  password  String
-  clinic    Clinic[]
-  doctor    Doctor[]
-  review    Review[]
+  id           Int            @id @unique @default(autoincrement())
+  firstName    String?        @db.VarChar(255)
+  lastName     String?        @db.VarChar(255)
+  userName     String         @db.VarChar(255)
+  email        String         @unique @db.VarChar(255)
+  password     String
+  clinic       Clinic[]
+  doctor       Doctor[]
+  review       Review[]
   savedClinics SavedClinics[]
+  chatroom     ChatRoom[]
+  messages     Message[]
 }
 
 model Clinic {
@@ -46,54 +48,73 @@ model Clinic {
 model Doctor {
   id Int @id @unique @default(autoincrement())
 
-  firstName      String @db.VarChar(255)
-  lastName       String @db.VarChar(255)
+  firstName      String  @db.VarChar(255)
+  lastName       String  @db.VarChar(255)
   specialization String
   address        String
   city           String
   state          String
   zipcode        String
-  phonenumber    String @db.VarChar(255)
-  email          String @unique @db.VarChar(255)
+  phonenumber    String  @db.VarChar(255)
+  email          String  @unique @db.VarChar(255)
   hospital       String
   img            String?
   userId         Int
   clinicId       Int
 
- user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
- clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([clinicId])
 }
 
 model Review {
-  id        Int  @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  rating    Int
-  comment   String   @db.VarChar(1000)
-  clinicId  Int
-  userId    Int
+  rating   Int
+  comment  String @db.VarChar(1000)
+  clinicId Int
+  userId   Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  
 
-   @@index([userId])
-   @@index([clinicId])
+  @@index([userId])
+  @@index([clinicId])
 }
 
 model SavedClinics {
-  id        Int  @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  clinicId  Int
+  clinicId   Int
   clinicName String
-  userId    Int
+  userId     Int
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   // clinic Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
-  
-
-   @@index([userId])
   //  @@index([clinicId])
+
+  @@index([userId])
+}
+
+model ChatRoom {
+  id    Int    @id @default(autoincrement())
+  users User[]
+
+  messages Message[]
+}
+
+model Message {
+  id       Int      @id @default(autoincrement())
+  content  String
+  createAt DateTime
+  chatId   Int
+  chat     ChatRoom @relation(fields: [chatId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([chatId])
 }
