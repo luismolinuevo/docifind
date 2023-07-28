@@ -17,7 +17,7 @@ model User {
   lastName     String?        @db.VarChar(255)
   userName     String         @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
-  password     String
+  password     String?
   clinic       Clinic[]
   doctor       Doctor[]
   review       Review[]
