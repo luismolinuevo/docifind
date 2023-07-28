@@ -64,6 +64,8 @@ router.post(
           name: name,
           description: description,
           userId: req.user.id,
+          focus: req.body.focus,
+          insurancesTaken: req.body.insurancesTaken
         },
       });
 
@@ -123,6 +125,8 @@ router.put("/:clinicId", passport.authenticate("jwt", { session: false }), async
         address: req.body.address,
         name: req.body.name,
         description: req.body.description,
+        focus: req.body.focus,
+        insurancesTaken: req.body.insurancesTaken
       },
     });
 

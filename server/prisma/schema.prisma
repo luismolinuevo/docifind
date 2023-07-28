@@ -29,16 +29,18 @@ model User {
 model Clinic {
   id Int @id @unique @default(autoincrement())
 
-  phonenumber String   @db.VarChar(255)
-  email       String   @unique @db.VarChar(255)
-  address     String   @db.VarChar(255)
-  name        String   @db.VarChar(255)
-  description String
-  websiteUrl  String?
-  img         String?
-  userId      Int
-  doctor      Doctor[]
-  review      Review[]
+  phonenumber     String   @db.VarChar(255)
+  email           String   @unique @db.VarChar(255)
+  focus           String
+  insurancesTaken String
+  address         String   @db.VarChar(255)
+  name            String   @db.VarChar(255)
+  description     String
+  websiteUrl      String?
+  img             String?
+  userId          Int
+  doctor          Doctor[]
+  review          Review[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
