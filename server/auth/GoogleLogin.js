@@ -16,7 +16,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/google",
+      callbackURL: "http://localhost:3000/auth/google/callback", //put the callback here worked. i called /google
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -25,13 +25,13 @@ passport.use(
         const user = await prisma.user.upsert({
           where: { email: profile.emails[0].value },
           update: {},
-          create: { email: profile.emails[0].value, fullName: profile.displayName },
+          create: { email: profile.emails[0].value, fullName: profile.displayName, userName: profile.emails[0].value },
         });
 
         console.log(user);
 
         // Create a JWT token and send it in the done function
-        const token = jwt.sign({ userId: user.id }, JSON_KEY);
+        const token = jwt.sign({ userId: user.id, email: user.email, fullName: user.fullName }, JSON_KEY);
         return done(null, token);
       } catch (error) {
         return done(error);
