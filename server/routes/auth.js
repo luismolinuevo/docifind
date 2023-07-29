@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import prisma from "../db/index.js";
 import dotenv from "dotenv";
 import passport from "passport";
+import googlePassport from "../auth/GoogleLogin.js";
 dotenv.config()
 
 const router = express.Router();
@@ -133,6 +134,20 @@ router.get(
       success: true,
       data: req.user,
     });    
+  }
+);
+
+// Signup with Google auth
+router.get('/google', passport.authenticate('google', { session: false, scope: ['profile', 'email'] }));
+
+// Google OAuth callback route
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }, { failureRedirect: '/' }),
+  (req, res) => {
+    // Redirect user after successful authentication
+    const token = req.user; // req.user now contains the JWT token
+    res.redirect(`/dashboard?token=${token}`);  //this url with be where I want it to go after I login
   }
 );
 

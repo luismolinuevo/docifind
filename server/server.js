@@ -7,6 +7,11 @@ import authRouter from "./routes/auth.js";
 import clinicRouter from "./routes/clinic.js";
 import doctorRouter from "./routes/doctor.js";
 import reviewRouter from "./routes/review.js";
+import dotenv from "dotenv";
+dotenv.config()
+
+const PORT = process.env.PORT
+
 const app = express();
 app.use(express.json());
 
@@ -20,6 +25,6 @@ app.use("/clinic", clinicRouter);
 app.use ("/doctor", doctorRouter);
 app.use ("/review", reviewRouter);
 
-app.listen(3001, () => {
+app.listen(PORT || 3000, () => {
     console.log("Server is up");
 });
