@@ -25,13 +25,26 @@ passport.use(
         const user = await prisma.user.upsert({
           where: { email: profile.emails[0].value },
           update: {},
-          create: { email: profile.emails[0].value, fullName: profile.displayName, userName: profile.emails[0].value },
+          create: {
+            email: profile.emails[0].value,
+            fullName: profile.displayName,
+            userName: profile.emails[0].value,
+          },
         });
 
         console.log(user);
 
-        // Create a JWT token and send it in the done function
-        const token = jwt.sign({ userId: user.id, email: user.email, fullName: user.fullName }, JSON_KEY);
+        // Set the expiration time for the token (e.g., 1 hour from now)
+        const expiresIn = "6h";
+
+        // Create a JWT token with an expiration time and send it in the done function
+        const token = jwt.sign(
+          { userId: user.id, email: user.email, fullName: user.fullName },
+          JSON_KEY,
+          {
+            expiresIn,
+          }
+        );
         return done(null, token);
       } catch (error) {
         return done(error);
