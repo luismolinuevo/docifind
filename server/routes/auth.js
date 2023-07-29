@@ -141,17 +141,30 @@ router.get(
 router.get('/google', passport.authenticate('google', { session: false, scope: ['profile', 'email'] }));
 
 // Google OAuth callback route
+// router.get(
+//   '/google/callback',
+//   passport.authenticate('google', { session: false, failureRedirect: '/' }),
+//   (req, res) => {
+//     // Redirect user after successful authentication
+//     const token = req.user; // req.user now contains the JWT token
+//     // res.redirect(`/dashboard?token=${token}`);  //this url with be where I want it to go after I login
+//     res.json({token: token}).redirect("http://localhost:5173/")
+    
+//   }
+// );
 router.get(
   '/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: '/' }),
   (req, res) => {
     // Redirect user after successful authentication
     const token = req.user; // req.user now contains the JWT token
-    // res.redirect(`/dashboard?token=${token}`);  //this url with be where I want it to go after I login
-    res.json({token: token}).redirect("http://localhost:5173/")
-    
+    // res.json({ token: token }); // Send the token in the JSON response
+    // res.cookie('token', token, { httpOnly: true });
+    // res.redirect(`http://localhost:5173`);
+    res.redirect(`http://localhost:5173?token=${token}`);
   }
 );
+
 
 
 export default router;
