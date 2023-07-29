@@ -148,6 +148,9 @@ router.get(
     // Redirect user after successful authentication
     const token = req.user; // req.user now contains the JWT token
     res.redirect(`/dashboard?token=${token}`);  //this url with be where I want it to go after I login
+    res.json({
+      token: token
+    })
   }
 );
 
