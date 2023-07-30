@@ -27,6 +27,6 @@ export default function Home() {
     
       console.log(localStorage.getItem("dociFindToken"));
   return (
-    <div>Home</div>
+    <div className='text-red-500 text-[50px]'>Home</div>
   )
 }

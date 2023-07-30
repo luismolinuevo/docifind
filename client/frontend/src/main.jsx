@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
-import store from "../redux/store.js";
+import store from "./redux/store.js";
 import "./index.css";
 
-import { createBrowserRouter, RouterProvider, } from "react-router-dom";
-import Layout from "../componets/General/Layout.jsx";
-import Home from "../pages/Home.jsx"
-import Login from "../pages/Login.jsx";
-import Signup from "../pages/Signup.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./componets/General/Layout.jsx";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,16 +28,16 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
-    ]
+    ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
     </Provider>
   </React.StrictMode>
 );
