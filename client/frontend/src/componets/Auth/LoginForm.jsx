@@ -1,18 +1,63 @@
-import React from 'react'
+import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/auth"
 
-export default function LoginForm() {
-    const {
-        control,
-        handleSubmit,
-        register,
-        formState: { errors },
-      } = useForm();
+const LoginForm = () => {
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
 
-    const onSubmit = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthed = useSelector((state) => state.auth.isLoggedIn);
 
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(loginUser(data.username, data.password));
+    if (isAuthed) {
+      navigate("/");
     }
+  };
+
+  const validateConfirmPassword = (value) => {
+    const password = getValues("password");
+    return value === password || "Passwords do not match";
+  };
+
   return (
-    <div>LoginForm</div>
-  )
-}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="username">Username</label>
+        <input type="text" {...register("username", { required: true })} />
+        {errors.username && <p>Username is required</p>}
+      </div>
+
+      <div>
+        <label htmlFor="password">Password</label>
+        <input type="password" {...register("password", { required: true })} />
+        {errors.password && <p>Password is required</p>}
+      </div>
+
+      <div>
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          {...register("confirmPassword", {
+            required: true,
+            validate: validateConfirmPassword,
+          })}
+        />
+        {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+  );
+};
+
+export default LoginForm;
