@@ -32,7 +32,7 @@ function App() {
     }
   }, [token]);
 
-  console.log(localStorage.getItem("dociFindToken"))
+  // console.log(localStorage.getItem("doc"))
 
   return (
     <div>

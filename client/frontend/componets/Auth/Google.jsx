@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Google() {
+const navigate = useNavigate();
   const [token, setToken] = useState("");
-  const handleGoogleAuth = async () => {
+
+  const handleGoogleAuth = () => {
     try {
       window.location.href = "http://localhost:3001/auth/google";
     } catch (error) {
@@ -12,30 +14,13 @@ export default function Google() {
     }
   };
 
-  useEffect(() => {
-    // Extract the token from the URL
-    const url = new URL(window.location.href);
-    const tokenParam = url.searchParams.get("token");
 
-    // Save the token to localStorage or state
-    if (tokenParam) {
-      setToken(tokenParam);
-      localStorage.setItem("dociFindToken", tokenParam);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Redirect to the desired page after successful authentication
-    if (token) {
-      window.location.href = "http://localhost:5173";
-    }
-  }, [token]);
-
-  console.log(localStorage.getItem("dociFindToken"));
 
   return (
     <div>
-      <button onClick={handleGoogleAuth}>Login with Google</button>
+      <button className="p-4 border-[1px] border-black" onClick={handleGoogleAuth}>
+        Login with Google
+      </button>
     </div>
   );
 }
