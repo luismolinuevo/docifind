@@ -20,7 +20,6 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log(profile);
         // Find or create the user in the database
         const user = await prisma.user.upsert({
           where: { email: profile.emails[0].value },
@@ -31,8 +30,6 @@ passport.use(
             userName: profile.emails[0].value,
           },
         });
-
-        console.log(user);
 
         // Set the expiration time for the token (e.g., 1 hour from now)
         const expiresIn = "6h";
