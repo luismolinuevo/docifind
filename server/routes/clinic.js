@@ -1,6 +1,8 @@
 import prisma from "../db/index.js";
 import express from "express";
 import passport from "passport";
+import upload from "../middlewares/multer.js";
+import cloudinary from "../utils/cloudinary.js";
 const router = express.Router();
 
 // GET route that gets all clinics
@@ -151,6 +153,24 @@ router.put("/:clinicId", passport.authenticate("jwt", { session: false }), async
     console.error(error);
     res.status(500).json({ error: "Server Error" });
   }
+});
+
+router.post('/upload', upload.single('image'), function (req, res) {
+  cloudinary.uploader.upload(req.file.path, function (err, result){
+    if(err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Error"
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      message:"Uploaded!",
+      data: result
+    })
+  })
 });
 
 export default router;
