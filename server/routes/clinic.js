@@ -55,7 +55,7 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { phonenumber, email, address, name, description, userId } = req.body;
+    const { phonenumber, email, address, name, description, focus, insurancesTaken } = req.body;
 
     try {
       const clinics = await prisma.clinic.create({
@@ -66,12 +66,14 @@ router.post(
           name: name,
           description: description,
           userId: req.user.id,
-          focus: req.body.focus,
-          insurancesTaken: req.body.insurancesTaken
+          focus: focus,
+          insurancesTaken: insurancesTaken
         },
       });
 
-      res.status(201);
+      res.status(201).json({
+        clinics
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Server Error" });
@@ -79,6 +81,7 @@ router.post(
   }
 );
 
+//delete a clinic
 router.delete("/:clinicId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     const clinicId = req.params.clinicId;
@@ -111,6 +114,7 @@ router.delete("/:clinicId", passport.authenticate("jwt", { session: false }), as
   }
 });
 
+//Edit a clinic
 router.put("/:clinicId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
     const clinicId = req.params.clinicId;
@@ -155,13 +159,23 @@ router.put("/:clinicId", passport.authenticate("jwt", { session: false }), async
   }
 });
 
-router.post('/upload', upload.single('image'), function (req, res) {
-  cloudinary.uploader.upload(req.file.path, function (err, result){
+//Upload a image and link to clinic. Need to put "image" as the key
+router.post('/upload/:clinicId', upload.single('image'),  function (req, res) {
+  cloudinary.uploader.upload(req.file.path, async function (err, result){
     if(err) {
       console.log(err);
       return res.status(500).json({
         success: false,
         message: "Error"
+      })
+    } else {
+      const addImg = await prisma.clinic.updateMany({
+        where: {
+          id: Number(req.params.clinicId)
+        },
+        data: {
+          img: result.url
+        }
       })
     }
 
