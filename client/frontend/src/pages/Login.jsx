@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 export default function Login() {
   return (
     <div>
+      <aside>
+        
+      </aside>
       <div>
         <h1>Sign In</h1>
         <p>Find the best doctor for you</p>
