@@ -1,6 +1,8 @@
 import prisma from "../db/index.js";
 import express from "express";
 import passport from "passport";
+import upload from "../middlewares/multer.js";
+import cloudinary from "../utils/cloudinary.js";
 const router = express.Router();
 
 //finds all Doctors

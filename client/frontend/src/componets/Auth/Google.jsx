@@ -17,8 +17,8 @@ const navigate = useNavigate();
 
 
   return (
-    <div>
-      <button className="p-4 border-[1px] border-black" onClick={handleGoogleAuth}>
+    <div className="w-full">
+      <button className="rounded-lg border-2 border-[#04444e] text-[#04444e] w-full py-2 text-[18px] my-6" onClick={handleGoogleAuth}>
         Login with Google
       </button>
     </div>
