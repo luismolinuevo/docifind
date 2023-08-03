@@ -57,7 +57,7 @@ router.get('/userdoctor', async (req, res) => {
 });
 
 
-
+//create a doctor
 router.post('/', async (req, res) => {
     const {  firstName,lastName, specialization, address, city, state, zipcode, phonenumber, email,  hospital, userId } = req.body;
 
@@ -88,7 +88,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-
+//delete a doctor
 router.delete('/:doctorId', async (req, res) => {
     try {
       const doctorId = req.params.doctorId;
@@ -121,6 +121,8 @@ router.delete('/:doctorId', async (req, res) => {
     }
   });
 
+
+  //edit a doctor
   router.put('/:doctorId', async (req, res) => {
     try {
       const doctorId = req.params.clinicId;
@@ -168,6 +170,34 @@ router.delete('/:doctorId', async (req, res) => {
       res.status(500).json({ error: "Server Error" });
     }
   });
+
+  //Upload a image and link to clinic. Need to put "image" as the key
+router.post('/upload/:doctorId', upload.single('image'),  function (req, res) {
+  cloudinary.uploader.upload(req.file.path, async function (err, result){
+    if(err) {
+      console.log(err);
+      return res.status(500).json({
+        success: false,
+        message: "Error"
+      })
+    } else {
+      const addImg = await prisma.doctor.updateMany({
+        where: {
+          id: Number(req.params.doctorId)
+        },
+        data: {
+          img: result.url
+        }
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      message:"Uploaded!",
+      data: result
+    })
+  })
+});
   
   
 
