@@ -24,38 +24,27 @@ const LoginForm = () => {
     }
   };
 
-  const validateConfirmPassword = (value) => {
-    const password = getValues("password");
-    return value === password || "Passwords do not match";
-  };
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="text-[20px] my-10">
       <div className="flex flex-col">
-        <label htmlFor="username">Username</label>
-        <input type="text" {...register("username", { required: true })} />
+        <input type="text" 
+        placeholder="Username"
+        className="outline-none border-b-[2px] border-[#04444e] h-[50px] bg-transparent py-1 my-2"
+        {...register("username", { required: true })} />
         {errors.username && <p>Username is required</p>}
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="password">Password</label>
-        <input type="password" {...register("password", { required: true })} />
+        <input type="password" 
+        placeholder="Password" 
+        className="outline-none border-b-[2px] border-[#04444e] h-[50px] bg-transparent py-1 my-2"
+        {...register("password", { required: true })} />
         {errors.password && <p>Password is required</p>}
       </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          {...register("confirmPassword", {
-            required: true,
-            validate: validateConfirmPassword,
-          })}
-        />
-        {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
-      </div>
       <div>
-        <button type="submit">Sign In</button>
+        <button type="submit" 
+        className="rounded-lg border-2 border-[#04444e] bg-[#04444e] text-white w-full py-2 text-[18px] my-6"
+        >Sign In</button>
       </div>
     </form>
   );
