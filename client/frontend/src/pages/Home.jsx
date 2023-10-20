@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import HeroPage from '../componets/HomePage/HeroPage';
 
 export default function Home() {
     //For oauth link
@@ -27,6 +28,8 @@ export default function Home() {
     
       console.log(localStorage.getItem("dociFindToken"));
   return (
-    <div className='text-red-500 text-[50px]'>Home</div>
+    <div className=''>
+      <HeroPage/>
+    </div>
   )
 }

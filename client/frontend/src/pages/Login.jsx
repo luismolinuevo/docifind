@@ -8,10 +8,17 @@ export default function Login() {
   return (
     <div className="w-full">
       <div className="flex">
-        <aside className="w-[50%] hidden lg:block">
-          <img src={LoginImg} alt="login img" />
+      <aside
+          className="w-[50%] hidden lg:block"
+          style={{
+            backgroundImage: `url(${LoginImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            height: "100vh",
+          }}
+        >
         </aside>
-        <main className="w-[50%] flex justify-center">
+        <main className="w-[50%] flex justify-center items-center">
           <div className="">
             <h1 className="text-[40px]">Sign In</h1>
             <p className="text-[25px]">Find the best doctor for you</p>
@@ -24,8 +31,8 @@ export default function Login() {
             <div className="flex justify-center">
             <Google />
             </div>
-            <p className="text-center">
-              New to docifind? <Link href="/signup">Join Now</Link>
+            <p className="text-center text-[18px]">
+              New to docifind? <Link href="/signup" className="text-blue-700">Join Now</Link>
             </p>
           </div>
         </main>

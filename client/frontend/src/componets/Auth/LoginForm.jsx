@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/auth";
 
 const LoginForm = () => {
@@ -14,18 +14,21 @@ const LoginForm = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthed = useSelector((state) => state.auth.isLoggedIn);
 
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(loginUser(data.username, data.password));
-    if (isAuthed) {
+    try {
+      console.log(data);
+      dispatch(loginUser(data.username, data.password));
       navigate("/");
+     
+    } catch(err) {
+      console.log(err)
     }
+
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="text-[20px] my-10">
+    <form onSubmit={handleSubmit(onSubmit)} className="text-[20px] mt-10 mb-3">
       <div className="flex flex-col">
         <input type="text" 
         placeholder="Username"
