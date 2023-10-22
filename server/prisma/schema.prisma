@@ -17,6 +17,7 @@ model User {
   userName     String?        @db.VarChar(255)
   email        String         @unique @db.VarChar(255)
   password     String?
+  is_staff     Boolean
   clinic       Clinic[]
   doctor       Doctor[]
   review       Review[]
@@ -28,6 +29,8 @@ model User {
 model Clinic {
   id Int @id @unique @default(autoincrement())
 
+  is_approved     Boolean  @default(false)
+  is_rejected     Boolean  @default(false)
   phonenumber     String   @db.VarChar(255)
   email           String   @unique @db.VarChar(255)
   focus           String
